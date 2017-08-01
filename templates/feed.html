@@ -1,0 +1,131 @@
+{% load staticfiles %}
+<style>
+    .topnav {
+  overflow: hidden;
+  background-color: #333;
+            margin-left: 486px;
+    margin-right: 494px;
+    margin-bottom: -2px;
+    padding-top: 0px;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+ body{
+     background-color: honeydew;
+     text-align: center;
+ }
+    #post{
+        margin-left: 254px;
+    border-radius: 6px;
+    background: honeydew;
+            margin-top: -44px;
+    }
+    h2{
+            margin-left: -306px;
+    color: indigo;
+    }
+    h3{
+            margin-left: -236px;
+    }
+    #q{
+          margin-left: -270px;
+    margin-top: 30px;
+            margin-right: 255px;
+    }
+    #w{
+        margin-left: -145px;
+
+    margin-top: -16px;
+            margin-right: 111px;
+
+    }
+    #r{
+        margin-top: -16px;
+    }
+</style>
+<body>
+   <form method="post" action="/post/">
+        {% csrf_token %}
+          <h2>Feeds</h2>
+          <input id="post" type="submit" class="btn-default btn" value="Create Post">
+   </form>
+   <form method="post" action="/nature/">
+        {% csrf_token %}
+
+       <div id="q"><input id="post" type="submit" style="padding-left: 25px; padding-right: 25px;" class="btn-default btn" value="nature"></div>
+
+
+
+   </form>
+   <form method="post" action="/mountain/">
+        {% csrf_token %}
+       <div id="w"><input id="post" type="submit" class="btn-default btn" value="mountain" style=" padding-left: 25px;padding-right: 25px;"></div>
+   </form>
+
+   <div id="pp">
+          {% for post in posts %}
+        <h3 id="h3">
+          Posted by: {{ post.user.username }}
+        </h3>
+              </div>
+        <img style="display:inline-block; width:350px; height:300px;" src={{ post.img_url }}>
+               <input type="hidden" name="post" value="{{ post.id }}">
+            <div id="caption">Captions: {{ post.caption }}
+            </div>
+               <div>
+                 {{ post.like_count }}
+              </div>
+            <form method="post" action="/like/">
+              {% csrf_token %}
+               <input type="hidden" name="post" value="{{ post.id }}">
+                {% if post.has_liked %}
+                <input type="submit" class="btn btn-default" value="Unlike">
+                {% else %}
+                <input type="submit" class="btn btn-default" value="Like">
+              {% endif %}
+
+       </form>
+              <form method="POST" action="/comment/">
+              {% csrf_token %}
+              <input type="hidden" name="post" value="{{ post.id }}" >
+              <input type="text" name="comment_text" id="comment_text" placeholder="What's on Your Mind?.." value="{{ comment_text }}">
+              {{ comment_text }}
+              <input type="submit" class="btn-default btn" value="Comment">
+            </form>
+                 <div>
+
+              {% for comment in post.comments %}
+
+                <p>
+                  {{ comment.user.username }}
+                  {{ comment.created_on.date }}: {{ comment.comment_text }}
+                </p>
+
+              {% endfor %}
+
+      </div>
+
+
+   {% endfor %}
+
+</body>
+</html>

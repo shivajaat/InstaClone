@@ -1,0 +1,18 @@
+<style>
+
+    #a{
+        text-align: center;
+            margin-top: 283px;
+    }
+    .errorlist{
+        list-style-type: None;
+    }
+</style>
+   <form method="post" enctype="multipart/form-data">
+       {% csrf_token %}
+      <div id="a">
+          <label for="id_image">Image:</label><input type="file" name="image" required id="id_image">
+          <label for="id_caption">Caption:</label><input type="text" name="caption" required id="id_caption" maxlength="200">
+          <input type="submit" class="btn btn-default" value="Post">
+      </div>
+  </form>
